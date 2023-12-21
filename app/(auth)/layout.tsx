@@ -1,7 +1,7 @@
 import { Footer } from "./_components/footer";
 import { Navbar } from "./_components/navbar";
 
-const MarketingLayout = ({
+const ClientLayout = ({
     children,}:{
         children:React.ReactNode;
 }) => {
@@ -18,4 +18,4 @@ const MarketingLayout = ({
     )
 }
 
-export default MarketingLayout;
+export default ClientLayout;

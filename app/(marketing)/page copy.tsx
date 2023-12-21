@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 import { Poppins } from "next/font/google"
 
+
 const headingFont = localFont({
     src: "../../public/fonts/font.woff2"
 });
@@ -27,9 +28,9 @@ const MarketingPage = () => {
             </div>
             <div className="text-sm md:text-xl text-neutral-400 mt-4 max-w-xs md:max-w-2xl text-center mx-auto">
                 Colaborate, Manege Projects, and Reach new productivit.
-            </div>
+            </div>           
             <Button className="mt-6" size="lg" asChild>
-                <Link href="/sign-up">
+                <Link href="/home">
                     Get Taskify free
                 </Link>
             </Button>
