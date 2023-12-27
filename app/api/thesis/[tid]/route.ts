@@ -1,29 +1,35 @@
-// D:\code\node\template-nextmysq\app\api\thesis\[tid]\route.ts
+import { PrismaClient } from "@prisma/client"
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
+// Handles GET requests to /api
+export async function GET(request: Request) {
+  // ...
+  return NextResponse.json({ message: "Hello World" });
+  
+}
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const { tid } = req.query;
-
+// Handles POST requests to /api
+export async function POST(request: Request) {
+  // ...
+  //return NextResponse.json({ message: "Hello World" });
+  //const body = await request.json();
+  //console.log(body)
+  const prisma = new PrismaClient();
   try {
-    if (req.method === 'GET') {
-      const thesis = await prisma.metadata.findFirst({
-        where: {
-          id: parseInt(tid as string, 10),
-        },
-      });
+    const thesis = await prisma.metadata.findUnique({
+      where: {
+        id: 10
+      }
+    })
 
-      res.status(200).json(thesis);
-    } else {
-      res.status(405).json({ error: 'Method Not Allowed' });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return NextResponse.json(thesis)
+    //return Response.json(thesis)
   } finally {
     await prisma.$disconnect();
   }
+
 }
+
+
