@@ -2,6 +2,7 @@
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+//import { getServerSession } from 'next-auth';
 
 const secretKey = 'your-secret-key'; // Replace with a secure secret key
 
@@ -20,3 +21,7 @@ export function generateToken(payload: string | object | Buffer) {
 export function verifyToken(token: string) {
   return jwt.verify(token, secretKey);
 }
+
+
+//const session = await getServerSession(authConfig);
+ // if (!session) return redirect("/sign-in");

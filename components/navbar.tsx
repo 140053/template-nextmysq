@@ -1,6 +1,8 @@
 import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import USerLogSts from "./UserNavSts";
+import { DropdownMenuDemo } from "./dropDemo";
 
 export const Navbar = () => {
     return (
@@ -13,17 +15,15 @@ export const Navbar = () => {
                         <Link href="/">Home</Link>
                     </Button>
                     <Button size="sm" variant="ghost">
-                        <Link href="/">Browse</Link>
+                        <Link href="/browse">Browse</Link>
                     </Button>
                     <Button size="sm" variant="ghost">
-                        <Link href="/">About</Link>
+                        <Link href="/about">About</Link>
                     </Button>
                 </div>
 
-                <div className="space-x-4  md:w-auto flex items-center  justify-between  ">
-                    <Button size="sm" variant="outline">
-                        <Link className="text-black" href="/sign-in">Login</Link>
-                    </Button>
+                <div className="space-x-4  md:w-auto flex items-center  justify-between  ">                   
+                    <DropdownMenuDemo />                      
                 </div>
             </div>
         </div>

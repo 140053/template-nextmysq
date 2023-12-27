@@ -1,15 +1,15 @@
 import { PrismaClient } from "@prisma/client";
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link";
+import bcrypt from "bcrypt";
 
 
 const prisma = new PrismaClient();
 
 const MetadaList = async () => {
     try {
-        const metadata = await prisma.metadata.findMany({take: 10,});
-        
-
+        const metadata = await prisma.metadata.findMany({ take: 10, });
+        //console.log(metadata)
         return (
             <div className="">
                 <h1 className="">Recently Added</h1>
@@ -17,6 +17,7 @@ const MetadaList = async () => {
                 <div className="ml-50">
 
                     {metadata.map((thesis) => (
+
                         <div key={thesis.id}>
                             <div className="border border-solid m-3 p-2">
                                 <Badge variant="outline">{thesis.campus} Campus</Badge>
@@ -24,7 +25,7 @@ const MetadaList = async () => {
                                 {/* Render individual auser data here */}
 
                                 <h1 className="text-blue-600">
-                                    <Link href="thesis">
+                                    <Link href={"/thesis/"+ thesis?.glinkView?.split("/file/d/")[1].split("/")[0] }>
                                         {thesis.title}
                                     </Link>
                                 </h1>
@@ -33,7 +34,7 @@ const MetadaList = async () => {
                                 </h4>
                                 <p>
                                     Abstract: {thesis.abstract && thesis.abstract.length > 200 ? `${thesis.abstract.slice(0, 100)}...` : thesis.abstract}
-                                    <small className="text-blue-600"><Link href="/thesis">Read More..</Link></small>
+                                    <small className="text-blue-600"><Link  href={"/thesis/"+ thesis?.glinkView?.split("/file/d/")[1].split("/")[0] } >Read More..</Link></small>
                                 </p>
                             </div>
 
