@@ -31,7 +31,7 @@ const LoginPage = () => {
   return (
     <div className="container flex text-center justify-center ">
       <div className="border border-solid shadow ">
-        <Tabs defaultValue="account" className="w-[700px]">
+        <Tabs defaultValue="account" className="lg:w-[700px] sm:w-[500px]">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="account" >Login</TabsTrigger>
             <TabsTrigger value="password">Register</TabsTrigger>

@@ -2,17 +2,16 @@
 
 import { FC } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
 interface ThesisDisplayProps {
   thesis: any; // Define the type of the thesis data
 }
 
-const ThesisDisplay: FC<ThesisDisplayProps> = ({ thesis }) => {
+const ThesisDisplay: FC<ThesisDisplayProps> = async  ({ thesis }) => {
+ 
   return (
-    <Card>
+    <Card>     
       <CardHeader>
         <CardTitle>{thesis.title}</CardTitle>
         <CardDescription>

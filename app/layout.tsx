@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="h-full bg-slate-100">
+        <div className="h-full ">
           <main className="pt-20 ">
             <Providers>
               <Navbar />

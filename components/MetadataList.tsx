@@ -8,7 +8,14 @@ const prisma = new PrismaClient();
 
 const MetadaList = async () => {
     try {
-        const metadata = await prisma.metadata.findMany({ take: 10, });
+        const metadata = await prisma.metadata.findMany({
+            take: 10,
+            orderBy: [
+                {
+                    id: 'desc',
+                }
+            ]
+        });
         //console.log(metadata)
         return (
             <div className="">
@@ -25,7 +32,7 @@ const MetadaList = async () => {
                                 {/* Render individual auser data here */}
 
                                 <h1 className="text-blue-600">
-                                    <Link href={"/thesis/"+ thesis?.glinkView?.split("/file/d/")[1].split("/")[0] }>
+                                    <Link href={"/theses/" + thesis?.id}>
                                         {thesis.title}
                                     </Link>
                                 </h1>
@@ -34,7 +41,7 @@ const MetadaList = async () => {
                                 </h4>
                                 <p>
                                     Abstract: {thesis.abstract && thesis.abstract.length > 200 ? `${thesis.abstract.slice(0, 100)}...` : thesis.abstract}
-                                    <small className="text-blue-600"><Link  href={"/thesis/"+ thesis?.glinkView?.split("/file/d/")[1].split("/")[0] } >Read More..</Link></small>
+                                    <small className="text-blue-600"><Link href={"/theses/" + thesis?.id }>Read More..</Link></small>
                                 </p>
                             </div>
 

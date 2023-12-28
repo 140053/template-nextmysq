@@ -5,15 +5,17 @@ import ThesisDisplay from './ThesisDisplay';
 
 const ThesisFetcher = ({ tid }: { tid: string }) => {
   const [thesisData, setThesisData] = useState<any>(null);
+  //console.log(tid)
 
   useEffect(() => {
     const fetchThesisData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/thesis/${tid}`, {
-          method: 'POST',
+        const response = await fetch(`http://localhost:3000/api/theses/${tid}`, {
+          method: 'GET',
         });
         if (response.ok) {
-          const thesis = await response.json();
+          const thesis = response.json();
+          //console.log(thesis)
           setThesisData(thesis);
         } else {
           console.error('Failed to fetch thesis data');
@@ -26,7 +28,12 @@ const ThesisFetcher = ({ tid }: { tid: string }) => {
     fetchThesisData();
   }, [tid]);
 
-  return <>{thesisData && <ThesisDisplay thesis={thesisData} />}</>;
+  return <>
+    
+    {
+      thesisData && <ThesisDisplay thesis={thesisData} />
+    }
+  </>;
 };
 
 export default ThesisFetcher;
