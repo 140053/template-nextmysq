@@ -1,59 +1,62 @@
-import { PrismaClient } from "@prisma/client";
+"use client"
+import PdfView from "@/components/customd/pdfview";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+async function getdata(id: any) {
+  const response = await fetch(`http://localhost:3000/api/thesis/${id}`);
+  //if (response.ok) {
+  //throw new Error('failed to api Request')
+  //}
+
+  const data = await response.json()
+  return data
+
+}
 
 
 
-const MetadaList = async ({ params }: { params: { id: string } }) => {
-  //console.log(params.id);
-  const prisma = new PrismaClient();
+const thesesPage = async ({ params: { id = 'defaultId' } }) => {
+  const router = useRouter();
+  const { data: session } = useSession();
 
-  
-
-  try {
-    //if (isNaN(params.id)) {
-      const tid = parseInt(params.id, 10);
-
-      const thesis = await prisma.metadata.findUnique({
-        where: {
-          id: tid,
-        },
-      });
-
-      return (
-        <div className="">
-          <h1 className="">Recently Added</h1>
-          <div className="ml-50">
-            <div key={thesis?.id}>
-              <div className="border border-solid m-3 p-2">
-                <Badge variant="outline">{thesis?.campus} Campus</Badge>
-                <Badge variant="outline">Embargo: {thesis?.embargo}</Badge>
-
-                <h1 className="text-blue-600">
-                  <Link href={"/theses/" + thesis?.id}>{thesis?.title}</Link>
-                </h1>
-                <h4>
-                  Author:<u>{thesis?.author}</u> Course: {thesis?.kurso}
-                </h4>
-                <p>
-                  Abstract:{" "}
-                  {thesis?.abstract && thesis?.abstract.length > 200
-                    ? `${thesis?.abstract.slice(0, 100)}...`
-                    : thesis?.abstract}
-                  <small className="text-blue-600">
-                    <Link href={"/theses/" + thesis?.id}>Read More..</Link>
-                  </small>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    //}
-  } finally {
-    // Close the Prisma connection when done
-    await prisma.$disconnect();
+  if (!session) {
+      router.push("/sign-in")
   }
-};
+  const thesis = await getdata(id)
+  //console.log(thesis)
 
-export default MetadaList;
+  return (
+    <>
+      <div className="container">
+        <Card className="pt-4 pl-4">
+          <Badge variant="outline">{thesis['thesis'].filename}</Badge>
+          <Badge variant="outline">{thesis['thesis'].embargo}</Badge>
+          <CardHeader>
+            <CardTitle>{thesis['thesis'].title}</CardTitle>
+            <CardDescription>
+              <h2>{thesis['thesis'].author}</h2>
+              <h4>{thesis['thesis'].kurso}</h4>
+              <h5>{thesis['thesis'].subjek}</h5>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2 ">
+            <p className="text-justify">{thesis['thesis'].abstract}</p>
+            <hr></hr>
+            <PdfView thesis={thesis['thesis'].glinkView} />
+          </CardContent>
+          <CardFooter>
+            <Button variant="outline" className="w-full bg-green-900 text-white hover:bg-yellow-500">
+              Full Text
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    </>
+  )
+}
+
+export default thesesPage;

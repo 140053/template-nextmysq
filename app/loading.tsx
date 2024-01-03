@@ -1,7 +1,9 @@
+import { SkeletonLoad } from "@/components/customd/skel"
+
 const Loading = () => {
     return(
-        <>
-            <div>Loading</div>
+        <>           
+            <SkeletonLoad />
         </>
     )
 }
