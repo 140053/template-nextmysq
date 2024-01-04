@@ -1,5 +1,5 @@
 "use client"
-import { AlertDialogDemo } from "@/components/pdfjs/view";
+import  AlertDialogDemo  from "@/components/pdfjs/view";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useSession } from "next-auth/react";
@@ -72,7 +72,7 @@ const ThesesPage = ({ params: { id = 'defaultId' } }) => {
             <hr></hr>
           </CardContent>
           <CardFooter>
-            <AlertDialogDemo />
+            <AlertDialogDemo thesisID={"undefined"} />
           </CardFooter>
         </Card>
       </div>
