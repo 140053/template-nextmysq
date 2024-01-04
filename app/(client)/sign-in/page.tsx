@@ -14,8 +14,8 @@ import { useState } from 'react';
 const LoginPage = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  
-  if(session){
+
+  if (session) {
     router.push("/")
   }
 
@@ -23,7 +23,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-   
+
   };
 
   return (
@@ -37,28 +37,18 @@ const LoginPage = () => {
           <TabsContent value="account">
             <Card>
               <CardHeader>
-                <CardTitle>Sign Up</CardTitle>
+                <CardTitle>Sign In</CardTitle>
                 <CardDescription>
                   Login your Credentials. If you haven&apos;t yet had your credentials, contact the librarian.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <div className="space-y-1">
-                  <Label htmlFor="username">Username</Label>
-                  <Input id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="password">Password</Label>
-                  <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-              </CardContent>
-              <CardFooter className="grid grid-flow-row">
-                <div>
-                  <Button className="w-full" onClick={handleLogin}>Login</Button>
-                </div>
                 <div>
                   <GoogleSignInButton />
                 </div>
+              </CardContent>
+              <CardFooter className="grid grid-flow-row">
+
               </CardFooter>
             </Card>
           </TabsContent>

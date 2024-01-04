@@ -1,0 +1,59 @@
+"use client"
+import { AlertDialogDemo } from "@/components/pdfjs/view";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+async function getdata(id: any) {
+  const response = await fetch(`/api/thesis/${id}`);
+  //if (response.ok) {
+  //throw new Error('failed to api Request')
+  //}
+
+  const data = await response.json()
+  return data
+
+}
+
+
+
+const thesesPage = async ({ params: { id = 'defaultId' } }) => {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  if (!session) {
+      router.push("/sign-in")
+  }
+  const thesis = await getdata(id)
+  //console.log(thesis)
+
+  return (
+    <>
+      <div className="container">
+        <Card className="pt-4 pl-4">
+          <Badge variant="outline">{thesis['thesis'].campus} Campus</Badge>
+          <Badge variant="outline">Embargo: {thesis['thesis'].embargo}</Badge>
+          <CardHeader>
+            <CardTitle className="lg:text-5xl">{thesis['thesis'].title}</CardTitle>
+            <CardDescription>
+              <h2 className="lg:text-3xl" >Author: {thesis['thesis'].author}</h2>
+              <h4>Course: {thesis['thesis'].kurso}</h4>
+              <h5>Subject: {thesis['thesis'].subjek}</h5>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2 ">
+            <p className="text-justify">{thesis['thesis'].abstract}</p>
+            <hr></hr>
+            
+          </CardContent>
+          <CardFooter>          
+            <AlertDialogDemo />
+          </CardFooter>
+        </Card>
+      </div>
+    </>
+  )
+}
+
+export default thesesPage;

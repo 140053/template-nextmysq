@@ -1,0 +1,54 @@
+//from browse
+import React, { useState, useEffect } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import axios from 'axios';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+
+const PdfViewer = () => {
+  const [pdfUrl, setPdfUrl] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [numPages, setNumPages] = useState(null);
+
+  useEffect(() => {
+    const fetchPdfUrl = async () => {
+      try {
+        const fileId = '14dKIQ361jZHVQWlTGFUnVGQGPawWwg8h';
+        const apiKey = 'AIzaSyAWJqO2lq0CdnT0SV1NCvOvpY_GlTCy0ag'; // Replace with your API key
+
+        const response = await axios.get(
+          `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`,
+          { responseType: 'blob' }
+        );
+
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const objectUrl = URL.createObjectURL(blob);
+        setPdfUrl(objectUrl);
+      } catch (error) {
+        console.error('Error fetching PDF:', error);
+      }
+    };
+
+    fetchPdfUrl();
+  }, []); // Run once on component mount
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
+  return (
+    <div>
+      <h1>PDF Viewer</h1>
+      {pdfUrl && (
+        <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
+          <Page pageNumber={pageNumber} />
+        </Document>
+      )}
+      <p>
+        Page {pageNumber} of {numPages}
+      </p>
+    </div>
+  );
+};
+
+export default PdfViewer;

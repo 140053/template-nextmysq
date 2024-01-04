@@ -10,10 +10,26 @@ const nextConfig = {
             },
           ],
     },webpack: (config) => {
+      
       config.module.rules.push({
-        test: /\.node/,
+        test: /\.node/, 
         use: "node-loader",
       });
+      /*
+      config.module.rules.unshift({
+        test: /pdf\.worker\.(min\.)?js/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[contenthash].[ext]",
+              publicPath: "_next/static/worker",
+              outputPath: "static/worker"
+            }
+          }
+        ]
+      });
+      */
       return config;
     },
     
