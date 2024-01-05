@@ -40,7 +40,7 @@ export default function PDFViewer({fileID}) {
 
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const objectUrl = URL.createObjectURL(blob);
-      console.log(objectUrl);
+      //console.log(objectUrl);
       return objectUrl;
     } catch (error) {
       console.error('Error fetching PDF:', error);
@@ -84,7 +84,7 @@ export default function PDFViewer({fileID}) {
             <Document file={file} onLoadSuccess={onDocumentLoadSuccess} className="justify-center md:w-900 lg:w-900 sm:w-400">
               {Array.from({ length: numPages }, (_, index) => (
                 <Page
-                  className="flex justify-center overflow-hidden md:w-900 lg:w-900 sm:w-400 border border-sky-500"
+                  className="flex justify-center overflow-hidden md:w-900 lg:w-900 sm:w-400 border border-sky-500 mt-4"
                   key={`page_${index + 1}`}
                   pageNumber={index + 1}
                   renderAnnotationLayer={false}
