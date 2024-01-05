@@ -7,15 +7,17 @@ import Head from 'next/head';
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
-export default function PDFViewer() {
+export default function PDFViewer({fileID}) {
+
   const [file, setFile] = useState(null);
   const [numPages, setNumPages] = useState(null);
   const [loading, setLoading] = useState(true);
+  //console.log(fileID)
 
   useEffect(() => {
     async function initializePdf() {
       try {
-        const pdfUrl = await fetchPdfUrl();
+        const pdfUrl = await fetchPdfUrl(fileID);
         setFile(pdfUrl);
       } catch (error) {
         console.error('Error initializing PDF:', error);
@@ -26,9 +28,9 @@ export default function PDFViewer() {
     initializePdf();
   }, []);
 
-  async function fetchPdfUrl() {
+  async function fetchPdfUrl(fileID) {
     try {
-      const fileId = '14dKIQ361jZHVQWlTGFUnVGQGPawWwg8h';
+      const fileId = fileID //'14dKIQ361jZHVQWlTGFUnVGQGPawWwg8h';
       const apiKey = 'AIzaSyAWJqO2lq0CdnT0SV1NCvOvpY_GlTCy0ag';
 
       const response = await axios.get(

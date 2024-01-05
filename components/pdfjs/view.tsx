@@ -32,7 +32,7 @@ const AlertDialogDemo: FC<ThesisUrl> = async ({ thesisID }) => {
         <AlertDialogHeader>
           <AlertDialogTitle className="text-5xl">Friendly Reminder! </AlertDialogTitle>
           <AlertDialogDescription className="text-3xl">
-            The author authorized the university library to upload and serve the digital copy of their work to the bona fide students.
+            The author authorized the university library to upload and serve the digital copy of their work to the bonafide students.
             Unauthorized sharing and distribution of these resources are prohibited.
             Thank you!
           </AlertDialogDescription>

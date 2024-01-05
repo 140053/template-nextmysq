@@ -27,6 +27,7 @@ const MetadaList = async () => {
 
                         <div key={thesis.id}>
                             <div className="border border-solid m-3 p-2">
+                                <Badge variant="outline">{thesis.filename} </Badge>
                                 <Badge variant="outline">{thesis.campus} Campus</Badge>
                                 <Badge variant="outline">Embargo:  {thesis.embargo}</Badge>
                                 {/* Render individual auser data here */}

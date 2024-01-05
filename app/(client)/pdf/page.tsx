@@ -14,7 +14,7 @@ const PdfDisplay = () => {
     return (
         <>
             <div className="container">
-                <PDFViewer />
+                <PDFViewer fileID={undefined} />
             </div>
         </>
     )

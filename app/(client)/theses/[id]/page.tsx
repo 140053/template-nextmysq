@@ -14,12 +14,25 @@ interface Thesis {
   kurso: string;
   subjek: string;
   abstract: string;
+  glinkView: string;
+  taon: string;
+  filename: string;
 }
+
+interface AlertDialogDemoProps {
+  thesisID: string | null;
+}
+
 
 async function getdata(id: any) {
   const response = await fetch(`/api/thesis/${id}`);
   const data = await response.json();
   return data;
+}
+
+const  getFileID = (url: string) => {  
+  const match = url.match(/\/file\/d\/([^/]+)/);
+  return match ? match[1] : null;
 }
 
 const ThesesPage = ({ params: { id = 'defaultId' } }) => {
@@ -33,6 +46,9 @@ const ThesesPage = ({ params: { id = 'defaultId' } }) => {
     kurso: '',
     subjek: '',
     abstract: '',
+    glinkView: '',
+    taon: '',
+    filename: '',
   });
 
   useEffect(() => {
@@ -43,7 +59,7 @@ const ThesesPage = ({ params: { id = 'defaultId' } }) => {
       }
 
       try {
-        const thesisData = await getdata(id);
+        const thesisData = await getdata(id);       
         setThesis(thesisData["thesis"]);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -57,13 +73,14 @@ const ThesesPage = ({ params: { id = 'defaultId' } }) => {
     <>
       <div className="container">
         <Card className="pt-4 pl-4">
+        <Badge variant="outline">{thesis.filename }</Badge>
           <Badge variant="outline">{thesis.campus} Campus</Badge>
           <Badge variant="outline">Embargo: {thesis.embargo}</Badge>
           <CardHeader>
             <CardTitle className="lg:text-5xl">{thesis.title}</CardTitle>
             <CardDescription>
               <h2 className="lg:text-3xl">Author: {thesis.author}</h2>
-              <h4>Course: {thesis.kurso}</h4>
+              <h4>Course: {thesis.kurso} @ {thesis.taon}</h4>
               <h5>Subject: {thesis.subjek}</h5>
             </CardDescription>
           </CardHeader>
@@ -72,7 +89,7 @@ const ThesesPage = ({ params: { id = 'defaultId' } }) => {
             <hr></hr>
           </CardContent>
           <CardFooter>
-            <AlertDialogDemo thesisID={"undefined"} />
+            <AlertDialogDemo thesisID={getFileID(thesis.glinkView)!} />
           </CardFooter>
         </Card>
       </div>
