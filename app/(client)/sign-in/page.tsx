@@ -32,7 +32,7 @@ const LoginPage = () => {
         <Tabs defaultValue="account" className="lg:w-[700px] sm:w-[500px]">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="account" >Login</TabsTrigger>
-            <TabsTrigger value="password">Register</TabsTrigger>
+            { /** <TabsTrigger value="password">Register</TabsTrigger> */}
           </TabsList>
           <TabsContent value="account">
             <Card>

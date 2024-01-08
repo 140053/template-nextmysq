@@ -13,16 +13,14 @@ import {
       <div className=" ">
         {/* Sidebar Content */}
         <Command>
-          <CommandInput placeholder="Type a command or search..." />
+          <CommandInput placeholder="Type a keyword or search..." />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Suggestions">
-              <CommandItem>Calendar</CommandItem>             
-              <CommandItem>Calculator</CommandItem>
-            </CommandGroup>
+          
             <CommandGroup heading="Browse By">
               <CommandItem>Author</CommandItem>              
               <CommandItem>Title</CommandItem>
+              <CommandItem>Subject</CommandItem>
             </CommandGroup>
             <CommandSeparator /> 
             <CommandGroup heading="Settings">

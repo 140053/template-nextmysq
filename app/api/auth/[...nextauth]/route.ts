@@ -1,28 +1,31 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 
+import { NextApiRequest, NextApiResponse } from "next";
+
+
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
-  ],callbacks: {
-    async signIn({user, account, profile  }) {
-      //console.log(user)
+   
+  ],
+  callbacks: {
+    async signIn({ user, account, profile }) {
       if (account?.provider === "google") {
         if (profile && profile.email) {
-          const sts = profile.email.endsWith("@cbsua.edu.ph");
-          return sts;
-        } 
+          const sts: boolean = profile.email.endsWith("@cbsua.edu.ph");
+          return Promise.resolve(sts);
+        }
       }
-      //return true // Do different verification for other providers that don't have `email_verified`
-      return '/';
+      return Promise.resolve('/');
     },
-    
   },
-  secret: process.env.NEXTAUTH_SECRET,
-  //debug: process.env.NODE_ENV === "development"
+ 
+  secret: process.env.NEXTAUTH_SECRET || "",
 });
 
 export { handler as GET, handler as POST };
