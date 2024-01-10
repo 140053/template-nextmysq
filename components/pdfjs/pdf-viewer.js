@@ -30,7 +30,7 @@ export default function PDFViewer({ fileID }) {
       }
     }
     initializePdf();
-  }, []);
+  }, [fileID]);
 
   async function fetchPdfUrl(fileID) {
     try {
