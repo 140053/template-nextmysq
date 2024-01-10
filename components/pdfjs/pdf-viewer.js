@@ -1,16 +1,20 @@
 "use client"
+import { useMediaQuery } from 'react-responsive';
 import { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "@/lib/pdf-worker";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import axios from 'axios';
 import Head from 'next/head';
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
-export default function PDFViewer({fileID}) {
+export default function PDFViewer({ fileID }) {
 
   const [file, setFile] = useState(null);
-  const [numPages, setNumPages] = useState(null);
+  const [numPages, setNumPages] = useState(1);
+  const [numTPages, setNumTPages] = useState(0);
   const [loading, setLoading] = useState(true);
   //console.log(fileID)
 
@@ -48,10 +52,40 @@ export default function PDFViewer({fileID}) {
     }
   }
 
- 
+  function NextPage(){
+    
+    if(numTPages > numPages){
+      setNumPages(numPages + 1)
+    }
+    
+  }
+  function PrevPage(){
+    
 
-  function onDocumentLoadSuccess({ numPages: nextNumPages }) {
-    setNumPages(nextNumPages);
+    if(numPages > 1){
+      setNumPages(numPages - 1)
+    }
+    
+  }
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 640px)' });
+  const isMediumScreen = useMediaQuery({ query: '(min-width: 641px) and (max-width: 1024px)' });
+
+  const getWidth = () => {
+    if (isSmallScreen) {
+      return 100;
+    } else if (isMediumScreen) {
+      return 400; // Adjust as needed
+    } else {
+      return 900; // Adjust as needed
+    }
+  };
+  
+
+
+
+  function onDocumentLoadSuccess({ numPages: nextNumPages }) {    
+    setNumTPages(nextNumPages);
+    
   }
 
   return (
@@ -76,13 +110,27 @@ export default function PDFViewer({fileID}) {
           /* Add more media queries and styles as needed */
         `}</style>
       </Head>
-      <div className="">
-       
-        {loading && <p>Loading...</p>}
-        {!loading && (
-          <div className="text-center">
-            <Document file={file} onLoadSuccess={onDocumentLoadSuccess} className="justify-center md:w-900 lg:w-900 sm:w-400">
-              {Array.from({ length: numPages }, (_, index) => (
+      <div className="container ">
+        <div className="">
+          {loading && <p>Loading...</p>}
+          {!loading && (
+            <div className="">
+              <div className="flex w-full max-w-sm items-center space-x-2">
+                <Button variant="default" className="w-full" onClick={() => {PrevPage()}} >Previous</Button>
+                <Input type="text" value={numPages} className="text-center" />
+                <Input type="text" value="of" className="text-center"/>
+                <Input type="text" value={numTPages} className="text-center" />
+                <Button variant="default" className="w-full" onClick={() => {NextPage()}} >Next</Button>
+              </div>
+              <Document file={file} onLoadSuccess={onDocumentLoadSuccess} className="justify-center md:w-900 lg:w-900 sm:w-400">
+                <Page
+                  className="flex justify-center overflow-hidden md:w-900 lg:w-900 sm:w-400 border border-sky-500 mt-4"
+                  pageNumber={numPages}
+                  renderAnnotationLayer={false}
+                  renderTextLayer={false}
+                  width={getWidth()}
+                />
+                {/*Array.from({ length: numPages }, (_, index) => (
                 <Page
                   className="flex justify-center overflow-hidden md:w-900 lg:w-900 sm:w-400 border border-sky-500 mt-4"
                   key={`page_${index + 1}`}
@@ -91,10 +139,11 @@ export default function PDFViewer({fileID}) {
                   renderTextLayer={false}
                   width={900}
                 />
-              ))}
-            </Document>
-          </div>
-        )}
+                ))*/}
+              </Document>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

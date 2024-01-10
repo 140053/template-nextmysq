@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev0": "prisma generate && next dev",
+    "build0": "prisma generate && prisma db push && prisma db seed && next build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -36,7 +38,8 @@
     "react-pdf": "^7.6.0",
     "sharp": "^0.33.1",
     "tailwind-merge": "^2.1.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "vercel": "^33.0.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
