@@ -2,13 +2,17 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  //provider = "mysql"
+  //url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model auser {
-  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  id         Int       @id @default(autoincrement()) 
   name       String    @db.VarChar(255)
   lastname   String    @db.VarChar(255)
   StudentID  String    @db.VarChar(255)
@@ -23,7 +27,7 @@ model auser {
 }
 
 model collection_mgr {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) 
   parent      String    @db.VarChar(255)
   name        String    @db.VarChar(255)
   code        String    @db.VarChar(255)
@@ -34,7 +38,7 @@ model collection_mgr {
 }
 
 model community_mgr {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) 
   name        String    @db.VarChar(255)
   code        String    @db.VarChar(100)
   campus      String?   @db.VarChar(255)
@@ -44,14 +48,14 @@ model community_mgr {
 }
 
 model filestorage {
-  id       Int       @id @default(autoincrement()) @db.UnsignedInt
+  id       Int       @id @default(autoincrement()) 
   filename String    @db.VarChar(255)
-  data     Bytes     @db.Blob
+  data     String?
   reg_date DateTime? @default(now()) @db.Timestamp(0)
 }
 
 model metadata {
-  id            Int       @id @default(autoincrement()) @db.UnsignedInt
+  id            Int       @id @default(autoincrement()) 
   title         String    @db.VarChar(755)
   author        String    @db.VarChar(555)
   taon          String    @db.VarChar(255)
@@ -76,7 +80,7 @@ model metadata {
 }
 
 model my_request {
-  rid        Int       @id @default(autoincrement()) @db.UnsignedInt
+  rid        Int       @id @default(autoincrement()) 
   m_barcode  String    @db.VarChar(255)
   user_id    String    @db.VarChar(255)
   username   String    @db.VarChar(255)
@@ -87,7 +91,7 @@ model my_request {
 }
 
 model mydocuments {
-  id_doc      Int       @id @default(autoincrement()) @db.UnsignedInt
+  id_doc      Int       @id @default(autoincrement()) 
   metadata_id Int
   user_id     Int
   a_right     String    @db.VarChar(255)
@@ -97,7 +101,7 @@ model mydocuments {
 }
 
 model statistics_login {
-  id       Int       @id @default(autoincrement()) @db.UnsignedInt
+  id       Int       @id @default(autoincrement()) 
   username String    @db.VarChar(255)
   campus   String    @db.VarChar(255)
   u_name   String    @db.VarChar(255)
@@ -109,7 +113,7 @@ model statistics_login {
 }
 
 model statistics_m {
-  id       Int       @id @default(autoincrement()) @db.UnsignedInt
+  id       Int       @id @default(autoincrement()) 
   bk_ID    String    @db.VarChar(255)
   title    String?   @db.VarChar(255)
   author   String?   @db.VarChar(255)
@@ -124,7 +128,7 @@ model statistics_m {
 }
 
 model statistics_mold {
-  id       Int       @id @default(autoincrement()) @db.UnsignedInt
+  id       Int       @id @default(autoincrement()) 
   bk_ID    String    @db.VarChar(255)
   u_name   String    @db.VarChar(255)
   campus   String?   @db.VarChar(255)
@@ -133,7 +137,7 @@ model statistics_mold {
 }
 
 model subcommunity_mgr {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) 
   parent      String    @db.VarChar(255)
   sibling     String?   @db.VarChar(255)
   name        String    @db.VarChar(255)

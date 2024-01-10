@@ -1,6 +1,6 @@
-//import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 //import type { NextApiRequest, NextApiResponse } from 'next'
-//import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 // Handles POST requests to /api
 /*
@@ -28,6 +28,20 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
 }
 
 
+import { NextResponse } from "next/server";
+
+export async function GET(request: Request, context: any){
+  const { params } = context
+ 
+  const tid = params.tid;
+    //const data = await request.json()
+    return NextResponse.json({
+        status: "success"
+    })
+}
+
+*/
+
 
 // Handles GET requests to /api
 export async function GET(request: Request, context: any) {
@@ -39,7 +53,7 @@ export async function GET(request: Request, context: any) {
   try {
     const thesis = await prisma.metadata.findUnique({
       where: {
-        id: tid
+        id: parseInt(tid)
       }
     })
     return NextResponse.json({
@@ -57,16 +71,5 @@ export async function GET(request: Request, context: any) {
   }
 
 }
-*/
 
-import { NextResponse } from "next/server";
 
-export async function GET(request: Request, context: any){
-  const { params } = context
- 
-  const tid = params.tid;
-    //const data = await request.json()
-    return NextResponse.json({
-        status: "success"
-    })
-}

@@ -1,16 +1,16 @@
-"use client"
 
-const BrowsePage = () => {
-   
+import SearchBarOne from "@/components/SearchBarOne";
 
-    return(
-        <>
-            <div>
-                <h1>Browse</h1>
-                
-            </div>
-        </>
-    )
+const Browsepage = () => {
+  return (
+    <>
+      <div className="container">
+        <h1>Browse</h1>
+        <SearchBarOne />
+      </div>
+    </>
+  )
 }
 
-export default BrowsePage;
+
+export default Browsepage;

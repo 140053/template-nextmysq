@@ -10,7 +10,7 @@ import {
   
   const SideBar = () => {
     return (
-      <div className="px-2 ">
+      <div className=" ">
         {/* Sidebar Content */}
         <Command>
           <CommandInput placeholder="Type a command or search..." />
@@ -20,10 +20,13 @@ import {
               <CommandItem>Calendar</CommandItem>             
               <CommandItem>Calculator</CommandItem>
             </CommandGroup>
+            <CommandGroup heading="Browse By">
+              <CommandItem>Author</CommandItem>              
+              <CommandItem>Title</CommandItem>
+            </CommandGroup>
             <CommandSeparator /> 
             <CommandGroup heading="Settings">
-              <CommandItem>Profile</CommandItem>
-              <CommandItem>Billing</CommandItem>
+              <CommandItem>Profile</CommandItem>              
               <CommandItem>Settings</CommandItem>
             </CommandGroup>
           </CommandList>

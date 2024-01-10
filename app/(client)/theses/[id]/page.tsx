@@ -1,59 +1,100 @@
-import { PrismaClient } from "@prisma/client";
+"use client"
+import  AlertDialogDemo  from "@/components/pdfjs/view";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation"; // Correct import
+import { useEffect, useState } from "react";
+
+interface Thesis {
+  campus: string;
+  embargo: string;
+  title: string;
+  author: string;
+  kurso: string;
+  subjek: string;
+  abstract: string;
+  glinkView: string;
+  taon: string;
+  filename: string;
+}
+
+interface AlertDialogDemoProps {
+  thesisID: string | null;
+}
 
 
+async function getdata(id: any) {
+  const response = await fetch(`/api/thesis/${id}`);
+  const data = await response.json();
+  return data;
+}
 
-const MetadaList = async ({ params }: { params: { id: string } }) => {
-  //console.log(params.id);
-  const prisma = new PrismaClient();
+const  getFileID = (url: string) => {  
+  const match = url.match(/\/file\/d\/([^/]+)/);
+  return match ? match[1] : null;
+}
 
-  
+const ThesesPage = ({ params: { id = 'defaultId' } }) => {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const [thesis, setThesis] = useState<Thesis>({
+    campus: '',
+    embargo: '',
+    title: '',
+    author: '',
+    kurso: '',
+    subjek: '',
+    abstract: '',
+    glinkView: '',
+    taon: '',
+    filename: '',
+  });
 
-  try {
-    //if (isNaN(params.id)) {
-      const tid = parseInt(params.id, 10);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!session) {
+        router.push("/sign-in");
+        return;
+      }
 
-      const thesis = await prisma.metadata.findUnique({
-        where: {
-          id: tid,
-        },
-      });
+      try {
+        const thesisData = await getdata(id);       
+        setThesis(thesisData["thesis"]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      return (
-        <div className="">
-          <h1 className="">Recently Added</h1>
-          <div className="ml-50">
-            <div key={thesis?.id}>
-              <div className="border border-solid m-3 p-2">
-                <Badge variant="outline">{thesis?.campus} Campus</Badge>
-                <Badge variant="outline">Embargo: {thesis?.embargo}</Badge>
+    fetchData();
+  }, [id, session, router]);
 
-                <h1 className="text-blue-600">
-                  <Link href={"/theses/" + thesis?.id}>{thesis?.title}</Link>
-                </h1>
-                <h4>
-                  Author:<u>{thesis?.author}</u> Course: {thesis?.kurso}
-                </h4>
-                <p>
-                  Abstract:{" "}
-                  {thesis?.abstract && thesis?.abstract.length > 200
-                    ? `${thesis?.abstract.slice(0, 100)}...`
-                    : thesis?.abstract}
-                  <small className="text-blue-600">
-                    <Link href={"/theses/" + thesis?.id}>Read More..</Link>
-                  </small>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    //}
-  } finally {
-    // Close the Prisma connection when done
-    await prisma.$disconnect();
-  }
+  return (
+    <>
+      <div className="container">
+        <Card className="pt-4 pl-4">
+        <Badge variant="outline">{thesis.filename }</Badge>
+          <Badge variant="outline">{thesis.campus} Campus</Badge>
+          <Badge variant="outline">Embargo: {thesis.embargo}</Badge>
+          <CardHeader>
+            <CardTitle className="lg:text-5xl">{thesis.title}</CardTitle>
+            <CardDescription>
+              <h2 className="lg:text-3xl">Author: {thesis.author}</h2>
+              <h4>Course: {thesis.kurso} @ {thesis.taon}</h4>
+              <h5>Subject: {thesis.subjek}</h5>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <p className="text-justify">{thesis.abstract}</p>
+            <hr></hr>
+          </CardContent>
+          <CardFooter>
+            <AlertDialogDemo thesisID={getFileID(thesis.glinkView)!} />
+          </CardFooter>
+        </Card>
+      </div>
+    </>
+  );
 };
 
-export default MetadaList;
+export default ThesesPage;
