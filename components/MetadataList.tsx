@@ -16,7 +16,7 @@ const MetadaList = async () => {
                 }
             ]
         });
-        console.log(metadata)
+        //console.log(metadata)
         return (
             <div className="">
                 <h1 className="">Recently Added</h1>
